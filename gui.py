@@ -2,6 +2,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
+import os
 
 # Third window class
 class ThirdWindow(QMainWindow):
@@ -53,7 +54,15 @@ class SecondWindow(QMainWindow):
         # Load second page
         self.loadPage2()
 
-    def loadPage2(self):
+    def loadPage2(self):    
+        # add image to window - not working, need to investigate
+        imagePath = os.path.join("img", "default.png")
+        self.label = QLabel(self)
+        self.pixmap = QPixmap(imagePath)
+        self.label.setPixmap(self.pixmap)
+        self.label.resize(self.pixmap.width(), self.pixmap.height())
+        self.label.move(400, 400)
+        
         # Next button
         self.nextButton = QPushButton('Next', self)
         self.nextButton.move(750, 650)
