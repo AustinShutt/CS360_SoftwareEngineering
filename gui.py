@@ -4,148 +4,173 @@ from PyQt5.QtWidgets import *
 import sys
 import os
 
-# Third window class
-class ThirdWindow(QMainWindow):
-    def __init__(self, parent=None):
-        super(ThirdWindow, self).__init__(parent)
-        # Set window title
-        self.setWindowTitle("Image Analysis v1.0 - Page 3")
-        # Set window size
-        self.setFixedWidth(1024)
-        self.setFixedHeight(768)
-        # Load third page
-        self.loadPage3()
-
-    def loadPage3(self):
-        # Next button
-        self.nextButton = QPushButton('Next', self)
-        self.nextButton.move(750, 650)
-
-        # Previous button
-        self.prevButton = QPushButton('Previous', self)
-        self.prevButton.move(150, 650)
-        self.prevButton.clicked.connect(self.goBack)
-
-        # Text label
-        self.textLabel = QLabel('Page 3 is loading this is super cool', self)
-        self.textLabel.setFixedSize(400,100)
-        self.textLabel.setAlignment(Qt.AlignCenter)
-        self.textLabel.setFont(QFont('Arial', 16))
-        self.textLabel.size
-        self.textLabel.move(300, 300)
-
-        # Show all the widgets
-        self.show()
-
-    def goBack(self):
-        # Go back to SecondWindow
-        self.hide()
-        self.parent().show()
-
-# Second window class
-class SecondWindow(QMainWindow):
-    def __init__(self, parent=None):
-        super(SecondWindow, self).__init__(parent)
-        # Set window title
-        self.setWindowTitle("Image Analysis v1.0 - Page 2")
-        # Set window size
-        self.setFixedWidth(1024)
-        self.setFixedHeight(768)
-        # Load second page
-        self.loadPage2()
-
-    def loadPage2(self):    
-        # add image to window - not working, need to investigate
-        imagePath = os.path.join("img", "default.png")
-        self.label = QLabel(self)
-        self.pixmap = QPixmap(imagePath)
-        self.label.setPixmap(self.pixmap)
-        self.label.resize(self.pixmap.width(), self.pixmap.height())
-        self.label.move(400, 400)
-        
-        # Next button
-        self.nextButton = QPushButton('Next', self)
-        self.nextButton.move(750, 650)
-        self.nextButton.clicked.connect(self.loadPage3)
-
-        # Previous button
-        self.prevButton = QPushButton('Previous', self)
-        self.prevButton.move(150, 650)
-        self.prevButton.clicked.connect(self.goBack)
-
-        # Show all the widgets
-        self.show()
-
-    def goBack(self):
-        # Go back to MainWindow
-        self.hide()
-        self.parent().show()
-
-    def loadPage3(self):
-        # Load third page
-        print('Loading Page 3')
-        self.hide()
-        self.thirdWindow = ThirdWindow(self)
-        self.thirdWindow.show()
-
-# First window class
 class MainWindow(QMainWindow):
-    def __init__(self, parent=None):
-        super(MainWindow, self).__init__(parent)
-        # Set window title
+    def __init__(self):
+        super().__init__()
+
+        # Initialize button and set layout for intro page
+        self.buttonGetStarted = QPushButton("Get Started", self)
+        self.buttonGetStarted.move(463,650)
+        self.buttonGetStarted.clicked.connect(self.show_first_page)
+
+        # Set layout for first page
         self.setWindowTitle("Image Analysis v1.0")
-        # Set window size
-        self.setFixedWidth(1024)
-        self.setFixedHeight(768)
-        # Load first page
-        self.loadPage1()
-
-    def loadPage1(self):
-        # Create title Label
-        self.titleLabel = QLabel('Image Analysis v1.0', self)
-        self.titleLabel.setAlignment(Qt.AlignCenter)
-        self.titleLabel.setFont(QFont('Arial', 36))
-        # Alignment
-        self.titleLabel.move(130,30)
-        self.titleLabel.setFixedSize(800,100)
-
-        # Create intro text label
-        self.introLabel = QLabel('This program is designed to teach you the fundamentals of artificial intelligence, machine learning,'
+        
+        # Create intro flavor text label
+        self.introLabel = QLabel('This program is designed to teach you the fundamentals of artificial intelligence, machine learning, '
                                   + 'and how it is used to analyze images. It will provide a short crash course in image analysis, including topics '
                                   + 'such as convolution, image segmentation, and machine learning.', self)
         self.introLabel.setAlignment(Qt.AlignCenter)
         self.introLabel.setFont(QFont('Arial', 16))
         self.introLabel.setWordWrap(True)
-        # Alignment
         self.introLabel.move(110,150)
         self.introLabel.setFixedSize(800,100)
 
-        # Create Get Started button
-        self.startButton = QPushButton('Get Started', self)
-        self.startButton.move(480,400)
+    def show_first_page(self):
+        # Remove the Get Started button
+        self.buttonGetStarted.deleteLater()
+        self.introLabel.deleteLater()
 
-        # startButton functionality
-        @pyqtSlot()
-        def on_click():
-            # Test
-            print('You clicked Get Started')
-            self.hide()
-            self.secondWindow = SecondWindow(self)
-            self.secondWindow.show()
+        # Initialize buttons for navigation
+        self.buttonPrevious = QPushButton("Previous", self)
+        self.buttonPrevious.move(50, 650)
+        self.buttonPrevious.clicked.connect(self.show_previous_page)
 
-        # Add click functionality to startButton
-        self.startButton.clicked.connect(on_click)
+        self.buttonNext = QPushButton("Next", self)
+        self.buttonNext.move(874, 650)
+        self.buttonNext.clicked.connect(self.show_next_page)
 
-        # Show all the widgets
-        self.show()
+        # Initialize label to display content
+        self.label = QLabel(self)
+        self.show_page(1)
+
+    def show_page(self, pageNumber):
+        # Set content of the window based on page number
         
-# Requirement for every GUI app using *Qt
-# One and only one instance allowed
-# [] = CLAs
-app = QApplication([])
+        if pageNumber == 1:
+            # Keep track of current page
+            self.label.setText("Page 1")
+            self.label.setVisible(False)
+            
+            # Add stuff to the page
+            self.p1textbox = QLabel("flavor text for Page 1", self)
+            self.p1textbox.setGeometry(212, 212, 500, 300)
+            self.p1textbox.setAlignment(Qt.AlignCenter)
+            self.p1textbox.setFont(QFont('Arial', 16))
+            
+            # Show elements unique to this page
+            self.p1textbox.setVisible(True)
+            
+            # Note: for proper functionality when navigating pages, we need to modify show_previous_page and show_next_page
+            # Both functions check the current page, simply add a line for all elements unique to this page like so:
+            # [element].setVisible(False)
+            
+        elif pageNumber == 2:
+            self.label.setText("Page 2")
+            
+            # Add stuff to the page
+            # Adding an image to page 2
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            imagePath = os.path.join(script_dir, "img", "default.png")
+            pixmap = QPixmap(imagePath)
+            if pixmap.isNull():
+                print("Failed to load image file")
+            self.imgLabel = QLabel(self)
+            self.imgLabel.setPixmap(pixmap)
+            self.imgLabel.setGeometry(50, 50, 924, 600)
+            self.imgLabel.setAlignment(Qt.AlignCenter)
+            
+            # Show elements unique to this page
+            self.imgLabel.setVisible(True)
+            
+        elif pageNumber == 3:
+            self.label.setText("Page 3")
+        elif pageNumber == 4:
+            self.label.setText("Page 4")
+        elif pageNumber == 5:
+            self.label.setText("Page 5")
+        elif pageNumber == 6:
+            self.label.setText("Page 6")
+        elif pageNumber == 7:
+            self.label.setText("Page 7 (Last Page)")
+            
 
-# Create window instance
-window = MainWindow()
+        # Set visibility of navigation buttons
+        if pageNumber == 1:
+            self.buttonPrevious.setVisible(False)
+        else:
+            self.buttonPrevious.setVisible(True)
+        if pageNumber == 7:
+            self.buttonNext.setVisible(False)
+        else:
+            self.buttonNext.setVisible(True)
 
-# Start the app
-app.exec()
+        # Show current page number in window title
+        self.setWindowTitle(f"Image Analysis v1.0 - Page {pageNumber}")
+
+    # Functionality to show previous/next pages - hide elements from current page
+    def show_previous_page(self):
+        # Find what page we're on
+        currentPage = int(self.label.text().split()[1])
+        self.show_page(currentPage - 1)
+        
+        # Hide elements unique to the current page
+        if currentPage == 1:
+            #
+            self.p1textbox.setVisible(False)
+            print("Removing unique elements from page 1")
+        elif currentPage == 2:
+            #
+            self.imgLabel.setVisible(False)
+            print("Removing unique elements from page 2")
+        elif currentPage == 3:
+            #
+            print("Removing unique elements from page 3")
+        elif currentPage == 4:
+            #
+            print("Removing unique elements from page 4")
+        elif currentPage == 5:
+            #
+            print("Removing unique elements from page 5")
+        elif currentPage == 6:
+            #
+            print("Removing unique elements from page 6")
+        elif currentPage == 7:
+            #
+            print("Removing unique elements from page 7")
+            
+
+    def show_next_page(self):
+        currentPage = int(self.label.text().split()[1])
+        self.show_page(currentPage + 1)
+        
+        # Hide elements unique to the current page
+        if currentPage == 1:
+            #
+            self.p1textbox.setVisible(False)
+            print("Removing unique elements from page 1")
+        elif currentPage == 2:
+            #
+            self.imgLabel.setVisible(False)
+            print("Removing unique elements from page 2")
+        elif currentPage == 3:
+            #
+            print("Removing unique elements from page 3")
+        elif currentPage == 4:
+            #
+            print("Removing unique elements from page 4")
+        elif currentPage == 5:
+            #
+            print("Removing unique elements from page 5")
+        elif currentPage == 6:
+            #
+            print("Removing unique elements from page 6")
+        elif currentPage == 7:
+            #
+            print("Removing unique elements from page 7")
+
+app = QApplication(sys.argv)
+main_window = MainWindow()
+main_window.setGeometry(100, 100, 1024, 768)
+main_window.show()
+sys.exit(app.exec_())
