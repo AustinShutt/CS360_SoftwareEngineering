@@ -139,8 +139,8 @@ class MainWindow(QMainWindow):
             
             # Page 2 Description
             self.page2Description = QLabel('A handwriting dataset ideally has thousands of examples of handwriting images '
-                                           + 'and the corresponding letters. With the right algorithms (convolution), we can '
-                                           + 'find the patterns that make each letter unique.\n\nWe are using the '
+                                           + 'and the corresponding letters. With the right algorithms (convolution) paired with a neural network, '
+                                           + 'we can find the patterns that make each letter unique.\n\nWe are using the '
                                            + 'IAM Handwriting dataset which contains 115,320 isolated and labeled words.', self)
             self.page2Description.setAlignment(Qt.AlignLeft)
             self.page2Description.setFont(QFont('Arial', 14))
