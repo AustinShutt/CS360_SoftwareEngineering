@@ -2,13 +2,17 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QLabel, QFil
 from PyQt5 import uic
 import cv2
 import sys
+import os
 
 class FilePicker(QMainWindow):
     def __init__(self):
         super(FilePicker, self).__init__()
 
-        #Load the design UI
-        uic.loadUi("filePickerDialog.ui", self)
+        # Load the design UI
+        # Use path of the script to find filePickerDialog.ui
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        file = os.path.join(script_dir, "filePickerDialog.ui")
+        uic.loadUi(file, self)
 
         # Define our Widgets
         self.button = self.findChild(QPushButton, "pushButton")

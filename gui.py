@@ -3,6 +3,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
 import os
+import cv2
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -173,11 +175,69 @@ class MainWindow(QMainWindow):
             
             # Page 3 Unique Elements
             # Page 3 Title Banner
+            self.page3Banner = QLabel('Convolution', self)
+            self.page3Banner.setAlignment(Qt.AlignCenter)
+            self.page3Banner.setFont(QFont('Arial', 36))
+            self.page3Banner.move(110,30)
+            self.page3Banner.setFixedSize(800,100)
+            
             # Page 3 Description
+            self.page3Description = QLabel('Think of an image as a matrix of pixels. '
+                                           +'Convolution is a mathematical operation; for the purposes of image processing it is taking a '
+                                           +'small matrix (called a kernel) and running it across an image, performing a specific operation at '
+                                           +'each pixel in the matrix.\n\n'
+                                           +'By using various kernels, this process lets us extract specific features (such as edges, corners, '
+                                           +'or blobs) from an image, which can be used by a neural network to identify patterns that '
+                                           +'distinguish different letters.\n\n'
+                                           +'By pairing the information from the IAM Handwriting dataset with a neural network, we can\n'
+                                           +'predict what letters and words are present in an image of handwriting.', self)
+            self.page3Description.setAlignment(Qt.AlignLeft)
+            self.page3Description.setFont(QFont('Arial', 14))
+            self.page3Description.setWordWrap(True)
+            self.page3Description.move(110,150)
+            self.page3Description.setFixedSize(800,250)
+            
             # Page 3 Images
+            # Edges Animation
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            page3Image1Path = os.path.join(script_dir, "img", "convolution.gif")
+            page3Movie1 = QMovie(page3Image1Path)
+            self.page3Image1Label = QLabel(self)
+            self.page3Image1Label.setMovie(page3Movie1)
+            page3Movie1.start()
+            self.page3Image1Label.move(110, 394)
+            self.page3Image1Label.setFixedSize(413, 230)
+            self.page3Image1Label.setAlignment(Qt.AlignCenter)
+            
+            # Equation image
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            page3Image2Path = os.path.join(script_dir, "img", "convolution-equation.png")
+            page3Image2 = QPixmap(page3Image2Path)
+            if page3Image2.isNull():
+                print("Failed to load image file")
+            self.page3Image2Label = QLabel(self)
+            self.page3Image2Label.setPixmap(page3Image2)
+            self.page3Image2Label.move(560,394)
+            self.page3Image2Label.setFixedSize(248,93)
+            self.page3Image2Label.setAlignment(Qt.AlignCenter)
+            
+            # Grid image
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            page3Image3Path = os.path.join(script_dir, "img", "convolution-grid.gif")
+            page3Movie2 = QMovie(page3Image3Path)
+            self.page3Image3Label = QLabel(self)
+            self.page3Image3Label.setMovie(page3Movie2)
+            page3Movie2.start()
+            self.page3Image3Label.move(650, 496)
+            self.page3Image3Label.setFixedSize(128, 128)
+            self.page3Image3Label.setAlignment(Qt.AlignCenter)
             
             # Show elements unique to Page 3
-            #self.imgLabel.setVisible(True)
+            self.page3Banner.setVisible(True)
+            self.page3Description.setVisible(True)
+            self.page3Image1Label.setVisible(True)
+            self.page3Image2Label.setVisible(True)
+            self.page3Image3Label.setVisible(True)
             
         elif pageNumber == 4:
             # Page Contents: Neural Network
@@ -195,32 +255,95 @@ class MainWindow(QMainWindow):
             
             # Page 4 Image(s)
             
-            # Show elements unique to Page 3
+            # Show elements unique to Page 4
             self.page4Banner.setVisible(True)
             
         elif pageNumber == 5:
             # Page Contents: Upload an image
             self.label.setText("Page 5")
             
-            # set as new last page!
-        elif pageNumber == 6:
-            self.label.setText("Page 6")
-        elif pageNumber == 7:
-            self.label.setText("Page 7 (Last Page)")
+            # Page 5 Unique Elements
+            # Page 5 Banner
+            self.page5Banner = QLabel('Upload an Image', self)
+            self.page5Banner.setAlignment(Qt.AlignCenter)
+            self.page5Banner.setFont(QFont('Arial', 36))
+            self.page5Banner.move(110,30)
+            self.page5Banner.setFixedSize(800,100)
             
+            # Page 5 Description
+            self.page5Description = QLabel('Upload your own image of handwriting, and the application will attempt to decipher what '
+                                           +'it says.\nPreferred file formats: BMP, JPEG, PNG', self)
+            self.page5Description.setAlignment(Qt.AlignLeft)
+            self.page5Description.setFont(QFont('Arial', 14))
+            self.page5Description.setWordWrap(True)
+            self.page5Description.move(110,150)
+            self.page5Description.setFixedSize(800,250)
+            
+            # File picker
+            # Couldn't find a good way to integrate this with the external file, reimplemented it
+            # Can be an improvement for future revisions
+            # I have been using img/test-img.jpg and it has been working fine
+            
+            # script_dir = os.path.dirname(os.path.abspath(__file__))
+            self.filePickerButton = QPushButton('Choose File', self)
+            self.filePickerButton.move(453, 365)
+            self.filePickerButton.setFixedSize(120, 40)
+            self.filePickerButton.clicked.connect(self.open_file_dialog)
 
+            # Show elements unique to Page 5
+            self.page5Banner.setVisible(True)
+            self.page5Description.setVisible(True)
+            self.filePickerButton.setVisible(True)
+            
+        #elif pageNumber == 6:
+            #self.label.setText("Page 6")
+        #elif pageNumber == 7:
+            #self.label.setText("Page 7 (Last Page)")
+        
         # Set visibility of navigation buttons
         if pageNumber == 1:
             self.buttonPrevious.setVisible(False)
         else:
             self.buttonPrevious.setVisible(True)
-        if pageNumber == 7:
+        if pageNumber == 5:
+            # Previously page 7 was last page
+            # To keep it simple, we could have 
             self.buttonNext.setVisible(False)
         else:
             self.buttonNext.setVisible(True)
 
         # Show current page number in window title
         self.setWindowTitle(f"Image Analysis v1.0 - Page {pageNumber}")
+
+    def open_file_dialog(self):
+        # Assign the file name of the image to a variable
+        fileName = QFileDialog.getOpenFileName(self, "Open File", "", "Image files (*.png *.jpg *.bmp);; All Files (*)")
+
+        if fileName:
+            # Display the name of the file
+            self.label.setText(fileName[0])
+            
+            # Load the input image
+            img = cv2.imread(fileName[0])
+
+            if img is not None:
+                # Display the name of the file
+                self.label.setText(fileName[0])
+
+                # Convert the input image to grayscale
+                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+                # Apply thresholding to convert grayscale to binary image
+                # ret,thresh = cv2.threshold(gray, 500, 800,0)
+
+                # Display the binary image
+                cv2.imshow("Binary image", gray)
+                cv2.waitKey(0)
+                cv2.destroyAllWindows()
+            else:
+                # Display an error message if the image couldn't be loaded
+                QMessageBox.warning(self, "Error", "Could not load image file.")
+
 
     # Functionality to show previous/next pages - hide elements from current page
     def show_previous_page(self):
@@ -243,19 +366,28 @@ class MainWindow(QMainWindow):
             print("Removing unique elements from page 2")
         elif currentPage == 3:
             #
+            self.page3Banner.setVisible(False)
+            self.page3Description.setVisible(False)
+            self.page3Image1Label.setVisible(False)
+            self.page3Image2Label.setVisible(False)
+            self.page3Image3Label.setVisible(False)
             print("Removing unique elements from page 3")
         elif currentPage == 4:
             #
+            self.page4Banner.setVisible(False)
             print("Removing unique elements from page 4")
         elif currentPage == 5:
             #
+            self.page5Banner.setVisible(False)
+            self.page5Description.setVisible(False)
+            self.filePickerButton.setVisible(False)
             print("Removing unique elements from page 5")
-        elif currentPage == 6:
+        #elif currentPage == 6:
             #
-            print("Removing unique elements from page 6")
-        elif currentPage == 7:
+            #print("Removing unique elements from page 6")
+        #elif currentPage == 7:
             #
-            print("Removing unique elements from page 7")
+            #print("Removing unique elements from page 7")
             
 
     def show_next_page(self):
@@ -277,19 +409,28 @@ class MainWindow(QMainWindow):
             print("Removing unique elements from page 2")
         elif currentPage == 3:
             #
+            self.page3Banner.setVisible(False)
+            self.page3Description.setVisible(False)
+            self.page3Image1Label.setVisible(False)
+            self.page3Image2Label.setVisible(False)
+            self.page3Image3Label.setVisible(False)
             print("Removing unique elements from page 3")
         elif currentPage == 4:
             #
+            self.page4Banner.setVisible(False)
             print("Removing unique elements from page 4")
         elif currentPage == 5:
             #
+            self.page5Banner.setVisible(False)
+            self.page5Description.setVisible(False)
+            self.filePickerButton.setVisible(False)
             print("Removing unique elements from page 5")
-        elif currentPage == 6:
+        #elif currentPage == 6:
             #
-            print("Removing unique elements from page 6")
-        elif currentPage == 7:
+            #print("Removing unique elements from page 6")
+        #elif currentPage == 7:
             #
-            print("Removing unique elements from page 7")
+            #print("Removing unique elements from page 7")
 
 app = QApplication(sys.argv)
 main_window = MainWindow()
