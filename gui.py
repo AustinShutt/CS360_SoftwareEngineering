@@ -10,8 +10,10 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        # Set the layout for the introductory page contents
+        # Initialize fileName as None for later access
+        self.fileName = None
 
+        # Set the layout for the introductory page contents
         # Intro page button
         self.buttonGetStarted = QPushButton("Get Started", self)
         self.buttonGetStarted.move(463,650)
@@ -295,8 +297,36 @@ class MainWindow(QMainWindow):
             self.page5Description.setVisible(True)
             self.filePickerButton.setVisible(True)
             
-        #elif pageNumber == 6:
-            #self.label.setText("Page 6")
+        elif pageNumber == 6:
+            # Page Contents: Displays uploaded image with deciphered text
+            self.label.setText("Page 6")
+            
+            # Note: not able to navigate back and forth from page 6; user must restart the program to upload another file.
+            # Can be an improvement for future revisions
+            
+            # Page 6 Unique Elements
+            # Page 6 Banner
+            self.page6Banner = QLabel('Deciphered Text', self)
+            self.page6Banner.setAlignment(Qt.AlignCenter)
+            self.page6Banner.setFont(QFont('Arial', 36))
+            self.page6Banner.move(110,30)
+            self.page6Banner.setFixedSize(800,100)
+            
+            # Page 6 Image (user image)
+            userImage = QPixmap(self.fileName[0])
+            # Scale the image in case it's too big for the window
+            scaledImage = userImage.scaledToWidth(600, Qt.SmoothTransformation)
+            self.userImageLabel = QLabel(self)
+            # Set the label size to be the same as the scaled image
+            self.userImageLabel.setFixedSize(scaledImage.width(), scaledImage.height())
+            self.userImageLabel.setPixmap(scaledImage)
+            self.userImageLabel.move(200, 150)
+            
+            # Show elements unique to Page 6
+            self.page6Banner.setVisible(True)
+            self.userImageLabel.setVisible(True)
+            
+            
         #elif pageNumber == 7:
             #self.label.setText("Page 7 (Last Page)")
         
@@ -306,29 +336,37 @@ class MainWindow(QMainWindow):
         else:
             self.buttonPrevious.setVisible(True)
         if pageNumber == 5:
-            # Previously page 7 was last page
-            # To keep it simple, we could have 
+            # File picker page
             self.buttonNext.setVisible(False)
         else:
             self.buttonNext.setVisible(True)
+        if pageNumber == 6:
+            # This is our last page, only viewable after an image has been uploaded.
+            self.buttonPrevious.setVisible(False)
+            self.buttonNext.setVisible(False)
+            # Hide all elements unique to page 5 (file picker page)
+            self.filePickerButton.setVisible(False)
+            self.page5Banner.setVisible(False)
+            self.page5Description.setVisible(False)
+            self.filePickerButton.setVisible(False)
 
         # Show current page number in window title
         self.setWindowTitle(f"Image Analysis v1.0 - Page {pageNumber}")
 
     def open_file_dialog(self):
         # Assign the file name of the image to a variable
-        fileName = QFileDialog.getOpenFileName(self, "Open File", "", "Image files (*.png *.jpg *.bmp);; All Files (*)")
+        self.fileName = QFileDialog.getOpenFileName(self, "Open File", "", "Image files (*.png *.jpg *.bmp);; All Files (*)")
 
-        if fileName:
+        if self.fileName:
             # Display the name of the file
-            self.label.setText(fileName[0])
+            self.label.setText(self.fileName[0])
             
             # Load the input image
-            img = cv2.imread(fileName[0])
+            img = cv2.imread(self.fileName[0])
 
             if img is not None:
                 # Display the name of the file
-                self.label.setText(fileName[0])
+                self.label.setText(self.fileName[0])
 
                 # Convert the input image to grayscale
                 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -340,6 +378,9 @@ class MainWindow(QMainWindow):
                 cv2.imshow("Binary image", gray)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
+                
+                # Navigate to page 6 to display the image
+                self.show_page(6)
             else:
                 # Display an error message if the image couldn't be loaded
                 QMessageBox.warning(self, "Error", "Could not load image file.")
