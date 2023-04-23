@@ -34,7 +34,7 @@ class MainWindow(QMainWindow):
                                   + 'It will provide a crash course on their applications to image analysis, including topics '
                                   + 'such as convolution and image segmentation.\n\n'
                                   + 'Click Get Started for a quick walkthrough on how artificial intelligence can be used to analyze '
-                                  + 'images of handwriting.', self)
+                                  + 'images of handwriting. This application identifies a letter in an image.', self)
         self.introText.setAlignment(Qt.AlignCenter)
         self.introText.setFont(QFont('Arial', 16))
         self.introText.setWordWrap(True)
@@ -145,7 +145,7 @@ class MainWindow(QMainWindow):
             self.page2Description = QLabel('A handwriting dataset ideally has thousands of examples of handwriting images '
                                            + 'and the corresponding letters. With the right algorithms (convolution) paired with a neural network, '
                                            + 'we can find the patterns that make each letter unique.\n\nWe are using the '
-                                           + 'IAM Handwriting dataset which contains 115,320 isolated and labeled words.', self)
+                                           + 'English Handwritten Characters dataset, which contains more than 3,000 images of handwritten English characters.', self)
             self.page2Description.setAlignment(Qt.AlignLeft)
             self.page2Description.setFont(QFont('Arial', 14))
             self.page2Description.setWordWrap(True)
@@ -191,8 +191,8 @@ class MainWindow(QMainWindow):
                                            +'By using various kernels, this process lets us extract specific features (such as edges, corners, '
                                            +'or blobs) from an image, which can be used by a neural network to identify patterns that '
                                            +'distinguish different letters.\n\n'
-                                           +'By pairing the information from the IAM Handwriting dataset with a neural network, we can\n'
-                                           +'predict what letters and words are present in an image of handwriting.', self)
+                                           +'By pairing the information from the English Handwritten Characters dataset with a neural network, we can '
+                                           +'predict what letter is present in an image.', self)
             self.page3Description.setAlignment(Qt.AlignLeft)
             self.page3Description.setFont(QFont('Arial', 14))
             self.page3Description.setWordWrap(True)
@@ -274,7 +274,7 @@ class MainWindow(QMainWindow):
             
             # Page 5 Description
             self.page5Description = QLabel('Upload your own image of a single letter, and the application will attempt to decipher what '
-                                           +'it says.\nPreferred file formats: BMP, JPEG, PNG', self)
+                                           +'it says.\n\nPreferred file formats: BMP, JPEG, PNG', self)
             self.page5Description.setAlignment(Qt.AlignLeft)
             self.page5Description.setFont(QFont('Arial', 14))
             self.page5Description.setWordWrap(True)
