@@ -5,7 +5,7 @@
 # Current dependencies
 # PyQt5
 
-# add other files in the same folder
+# add other files in the same folder with "import filename"
 import gui
 
 def __init__(self, parent=None):
