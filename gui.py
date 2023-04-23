@@ -273,7 +273,7 @@ class MainWindow(QMainWindow):
             self.page5Banner.setFixedSize(800,100)
             
             # Page 5 Description
-            self.page5Description = QLabel('Upload your own image of handwriting, and the application will attempt to decipher what '
+            self.page5Description = QLabel('Upload your own image of a single letter, and the application will attempt to decipher what '
                                            +'it says.\nPreferred file formats: BMP, JPEG, PNG', self)
             self.page5Description.setAlignment(Qt.AlignLeft)
             self.page5Description.setFont(QFont('Arial', 14))
