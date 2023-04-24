@@ -42,4 +42,6 @@ class Predictor():
 
         self.class_names = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']  
         self.predicted_class_name = self.class_names[self.predicted_class_index[0]]
-        return self.predicted_class_name
+    def getPrediction(self):
+        return self.predicted_class_name    
+

@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import *
 import sys
 import os
 import cv2
+from prediction import Predictor
 
 
 class MainWindow(QMainWindow):
@@ -314,6 +315,9 @@ class MainWindow(QMainWindow):
             
             # Page 6 Image (user image)
             userImage = QPixmap(self.fileName[0])
+            # Create prediction based on input image
+            pred = Predictor(self.fileName[0])
+            prediction = pred.getPrediction()
             # Scale the image in case it's too big for the window
             scaledImage = userImage.scaledToWidth(600, Qt.SmoothTransformation)
             self.userImageLabel = QLabel(self)
@@ -321,10 +325,17 @@ class MainWindow(QMainWindow):
             self.userImageLabel.setFixedSize(scaledImage.width(), scaledImage.height())
             self.userImageLabel.setPixmap(scaledImage)
             self.userImageLabel.move(200, 150)
-            
+            #Create label for prediction
+            self.predictionLabel = QLabel('Prediction: ' + prediction, self)
+            self.predictionLabel.setAlignment(Qt.AlignCenter)
+            self.predictionLabel.setFont(QFont('Arial', 24))
+            self.predictionLabel.move(110, 500)
+            self.predictionLabel.setFixedSize(800,100)
+
             # Show elements unique to Page 6
             self.page6Banner.setVisible(True)
             self.userImageLabel.setVisible(True)
+            self.predictionLabel.setVisible(True)
             
             
         #elif pageNumber == 7:
