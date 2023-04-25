@@ -259,7 +259,7 @@ class MainWindow(QMainWindow):
                                            +'These neurons are interconnected by weights. The first layer is the input layer, which receives '
                                            +'the visual data. The subsequent layers are hidden layers, which transform the input data using '
                                            +'non-linear functions. The final layer is the output layer, which produces the result of the network.\n\n'
-                                           +'In a convolutional neural network , the input data is convolved with a set of learned filters that '
+                                           +'In a convolutional neural network, the input data is convolved with a set of learned filters that '
                                            +'are able to detect local patterns in the data, such as edges and corners. '
                                            +'Computer vision neural networks can be trained using a variety of optimization techniques, such as '
                                            +'stochastic gradient descent, to minimize the error between the predicted output and the true output. '
@@ -279,8 +279,8 @@ class MainWindow(QMainWindow):
             self.page4ImageLabel = QLabel(self)
             self.page4ImageLabel.setMovie(page4Movie)
             page4Movie.start()
-            self.page4ImageLabel.move(200,330)
-            self.page4ImageLabel.setFixedSize(300,169)
+            self.page4ImageLabel.move(287,413)
+            self.page4ImageLabel.setFixedSize(450,254)
             self.page4ImageLabel.setAlignment(Qt.AlignCenter)
 
             # Show elements unique to Page 4
@@ -470,7 +470,6 @@ class MainWindow(QMainWindow):
             #
             #print("Removing unique elements from page 7")
             
-
     def show_next_page(self):
         currentPage = int(self.label.text().split()[1])
         self.show_page(currentPage + 1)
