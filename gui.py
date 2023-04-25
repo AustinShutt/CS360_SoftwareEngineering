@@ -329,7 +329,7 @@ class MainWindow(QMainWindow):
             self.predictionLabel = QLabel('Prediction: ' + prediction, self)
             self.predictionLabel.setAlignment(Qt.AlignCenter)
             self.predictionLabel.setFont(QFont('Arial', 24))
-            self.predictionLabel.move(110, 500)
+            self.predictionLabel.move(110, 75)
             self.predictionLabel.setFixedSize(800,100)
 
             # Show elements unique to Page 6

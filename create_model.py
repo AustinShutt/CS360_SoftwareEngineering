@@ -43,7 +43,7 @@ validation_set = tf.keras.preprocessing.image_dataset_from_directory(
 
 model = tf.keras.Sequential([
     tf.keras.layers.Input((28,28,1), name='Input_Layer'),
-    tf.keras.layers.Conv2D(16, 3, padding = 'same'),
+    tf.keras.layers.Conv2D(8, 3, padding = 'same'),
     tf.keras.layers.MaxPooling2D(),
     tf.keras.layers.Conv2D(16, 3, padding = 'same'),
     tf.keras.layers.MaxPooling2D(),
@@ -58,8 +58,8 @@ model.compile(
     loss=[keras.losses.CategoricalCrossentropy(from_logits=True)],
     metrics=['accuracy']
 )
-#reached 100% accuracy on training set at epoch 185
-model.fit(training_set, epochs=50, verbose= 2)
+
+model.fit(training_set, epochs=60, verbose= 2)
 
 
 loss, accuracy = model.evaluate(validation_set)
