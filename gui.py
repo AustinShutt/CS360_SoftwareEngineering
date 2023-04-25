@@ -359,11 +359,17 @@ class MainWindow(QMainWindow):
             self.predictionLabel.move(110, 75)
             self.predictionLabel.setFixedSize(800,100)
 
+            # Page 6 back button
+            self.page6BackButton = QPushButton('Try Again', self)
+            self.page6BackButton.move(30, 30)
+            self.page6BackButton.setFixedSize(150, 40)
+            self.page6BackButton.clicked.connect(lambda: self.show_previous_page())
+
             # Show elements unique to Page 6
             self.page6Banner.setVisible(True)
             self.userImageLabel.setVisible(True)
             self.predictionLabel.setVisible(True)
-            
+            self.page6BackButton.setVisible(True)
             
         #elif pageNumber == 7:
             #self.label.setText("Page 7 (Last Page)")
@@ -463,9 +469,13 @@ class MainWindow(QMainWindow):
             self.page5Description.setVisible(False)
             self.filePickerButton.setVisible(False)
             print("Removing unique elements from page 5")
-        #elif currentPage == 6:
+        elif currentPage == 6:
             #
-            #print("Removing unique elements from page 6")
+            self.page6Banner.setVisible(False)
+            self.userImageLabel.setVisible(False)
+            self.predictionLabel.setVisible(False)
+            self.page6BackButton.setVisible(False)
+            print("Removing unique elements from page 6")
         #elif currentPage == 7:
             #
             #print("Removing unique elements from page 7")
@@ -509,7 +519,11 @@ class MainWindow(QMainWindow):
             print("Removing unique elements from page 5")
         #elif currentPage == 6:
             #
-            #print("Removing unique elements from page 6")
+            self.page6Banner.setVisible(False)
+            self.userImageLabel.setVisible(False)
+            self.predictionLabel.setVisible(False)
+            self.page6BackButton.setVisible(False)
+            print("Removing unique elements from page 6")
         #elif currentPage == 7:
             #
             #print("Removing unique elements from page 7")

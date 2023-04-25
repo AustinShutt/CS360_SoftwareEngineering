@@ -1,5 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
+import os 
 
 """
 @InProceedings{deCampos09,
@@ -16,8 +17,11 @@ height = 28
 width = 28
 batch_size = 1
 
+script_dir = os.path.dirname(os.path.abspath(__file__))
+img_dir = os.path.join(script_dir, "formatted_dataset", "Img")
+
 training_set = tf.keras.preprocessing.image_dataset_from_directory(
-    'formatted_dataset/Img',
+    img_dir,
     labels='inferred',
     label_mode='categorical',
     #class_names=[]
@@ -29,7 +33,7 @@ training_set = tf.keras.preprocessing.image_dataset_from_directory(
     subset = 'training'
 )
 validation_set = tf.keras.preprocessing.image_dataset_from_directory(
-    'formatted_dataset/Img',
+    img_dir,
     labels='inferred',
     label_mode='categorical',
     #class_names=[]
