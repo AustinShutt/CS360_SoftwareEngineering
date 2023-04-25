@@ -454,6 +454,8 @@ class MainWindow(QMainWindow):
         elif currentPage == 4:
             #
             self.page4Banner.setVisible(False)
+            self.page4Description.setVisible(False)
+            self.page4ImageLabel.setVisible(False)
             print("Removing unique elements from page 4")
         elif currentPage == 5:
             #
@@ -497,6 +499,8 @@ class MainWindow(QMainWindow):
         elif currentPage == 4:
             #
             self.page4Banner.setVisible(False)
+            self.page4Description.setVisible(False)
+            self.page4ImageLabel.setVisible(False)
             print("Removing unique elements from page 4")
         elif currentPage == 5:
             #
