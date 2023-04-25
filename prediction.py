@@ -1,5 +1,4 @@
 import tensorflow as tf
-from tensorflow import keras
 import numpy as np
 
 """
@@ -19,12 +18,12 @@ class Predictor():
         self.width = 28
 
         # Load the trained model
-        self.model = keras.models.load_model('saved_model')
+        self.model = tf.keras.models.load_model('saved_model')
         # Load the image using keras.preprocessing
-        self.image = keras.preprocessing.image.load_img(imagePath, target_size=(self.height, self.width), color_mode='grayscale')
+        self.image = tf.keras.preprocessing.image.load_img(imagePath, target_size=(self.height, self.width), color_mode='grayscale')
 
         # Convert the image to a numpy array
-        self.image = keras.preprocessing.image.img_to_array(self.image)
+        self.image = tf.keras.preprocessing.image.img_to_array(self.image)
 
         # Preprocess the image (e.g., normalization, resizing, etc.)
         # You may need to preprocess the image to match the preprocessing applied during training
