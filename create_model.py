@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
-import os 
+import os
 
 """
 @InProceedings{deCampos09,
@@ -12,16 +12,19 @@ import os
   year      = "2009",
 }
 """
+#training parameters
+epochs = 60 #number of generations
+batch_size = 1 #number of images processed at once. Lower == higher detail
 
+#Image parameters - Defines width and height images will be resized to. Increasing increases the amount of detail the model can detect, but it also increases the processing time
 height = 28
 width = 28
-batch_size = 1
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 img_dir = os.path.join(script_dir, "formatted_dataset", "Img")
 
 training_set = tf.keras.preprocessing.image_dataset_from_directory(
-    img_dir,
+    'formatted_dataset2/Img',
     labels='inferred',
     label_mode='categorical',
     #class_names=[]
@@ -33,7 +36,7 @@ training_set = tf.keras.preprocessing.image_dataset_from_directory(
     subset = 'training'
 )
 validation_set = tf.keras.preprocessing.image_dataset_from_directory(
-    img_dir,
+    'formatted_dataset2/Img',
     labels='inferred',
     label_mode='categorical',
     #class_names=[]
@@ -54,7 +57,7 @@ model = tf.keras.Sequential([
     tf.keras.layers.Conv2D(32, 3, padding = 'same'),
     tf.keras.layers.MaxPooling2D(),
     tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(36)
+    tf.keras.layers.Dense(62)
 ])
 
 model.compile(
@@ -62,8 +65,8 @@ model.compile(
     loss=[keras.losses.CategoricalCrossentropy(from_logits=True)],
     metrics=['accuracy']
 )
-
-model.fit(training_set, epochs=60, verbose= 2)
+#reached 100% accuracy on training set at epoch 185
+model.fit(training_set, epochs=epochs, verbose= 2)
 
 
 loss, accuracy = model.evaluate(validation_set)
