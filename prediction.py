@@ -26,11 +26,6 @@ class Predictor():
         # Convert the image to a numpy array
         self.image = keras.preprocessing.image.img_to_array(self.image)
 
-        # Preprocess the image (e.g., normalization, resizing, etc.)
-        # You may need to preprocess the image to match the preprocessing applied during training
-        # For example, if you normalized the training images, you should normalize the test image as well
-        #image = image / 255.0  # Example normalization
-
         # Reshape the image to match the input shape of your model
         self.image = np.expand_dims(self.image, axis=0)  # Add batch dimension
 
@@ -40,9 +35,11 @@ class Predictor():
         # Get the predicted class label
         self.predicted_class_index = np.argmax(self.prediction, axis=1)
 
-
+        #list of possible outputs. Each entry cooresponds to an output neuron
         self.class_names = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'A', 'b', 'B', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'k', 'K', 'l', 'L', 'm', 'M', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 't', 'T', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z']  
         self.predicted_class_name = self.class_names[self.predicted_class_index[0]]
-
+    
+    
+    #returns predicted value
     def getPrediction(self):
         return self.predicted_class_name
